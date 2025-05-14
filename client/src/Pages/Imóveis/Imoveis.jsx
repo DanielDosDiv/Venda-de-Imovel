@@ -56,7 +56,7 @@ function Imoveis() {
     if (loading) {
         return (
             <div >
-                <Loading/> {/* Substituído aqui */}
+                <Loading/> 
             </div>
         );
     }

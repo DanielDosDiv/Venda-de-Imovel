@@ -2,13 +2,13 @@
     margin: 3%;
     display: flex;
     flex-wrap: wrap;
-    gap: 5%; /* Ajustei para um valor mais adequado */
+    gap: 5%; 
     max-width: 100%;
     box-sizing: border-box;
 }
 
 .card_user {
-    width: 37%; /* Ajuste para telas grandes */
+    width: 37%; 
     height: 206px;
     background-color: #EDEAEA;
     border-radius: 9px;
@@ -58,62 +58,62 @@
     object-fit: cover;
 }
 
-/* Media queries para tornar responsivo */
+
 @media (max-width: 1024px) {
     .container {
-        gap: 5%; /* Ajusta o gap */
+        gap: 5%; 
     }
 
     .card_user {
-        width: 45%; /* Cards ocupam 45% da largura da tela */
-    }
+        width: 45%;
 
     .user_info h1 {
-        font-size: 20px; /* Ajusta o tamanho da fonte para telas médias */
+        font-size: 20px; 
     }
 
     .display_flexs p {
-        font-size: 14px; /* Ajusta o tamanho da fonte para telas médias */
+        font-size: 14px; 
     }
 }
 
 @media (max-width: 768px) {
     .container {
-        gap: 3%; /* Ajusta o gap */
+        gap: 3%;
     }
 
     .card_user {
-        width: 90%; /* Cards ocupam 90% da largura da tela */
+        width: 90%; 
     }
 
     .user_info h1 {
-        font-size: 18px; /* Ajusta o tamanho da fonte para telas pequenas */
+        font-size: 18px; 
     }
 
     .display_flexs p {
-        font-size: 12px; /* Ajusta o tamanho da fonte para telas pequenas */
+        font-size: 12px; 
     }
 }
 
 @media (max-width: 480px) {
     .container {
-        gap: 2%; /* Ajusta o gap para telas muito pequenas */
+        gap: 2%; 
     }
 
     .card_user {
-        width: 100%; /* Cards ocupam 100% da largura da tela */
+        width: 100%; 
     }
 
     .user_info h1 {
-        font-size: 16px; /* Ajuste de fonte */
+        font-size: 16px; 
     }
 
     .display_flexs p {
-        font-size: 12px; /* Ajuste de fonte */
+        font-size: 12px; 
     }
 
     .user_img {
-        width: 120px; /* Ajusta a imagem do usuário para telas menores */
+        width: 120px; 
         height: 120px;
     }
+}
 }
