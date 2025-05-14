@@ -109,8 +109,8 @@ function DetalheImovel() {
 
           <div className={style.info_colum_esquerdo}>
             <div>
-              <h3>Rua</h3>
-              <p>José Gomes Pereira da Rocha ,82 - Padre Nóbrega </p>
+              <h3>Endereço</h3>
+              <p>{imovel.Rua || "não especificado"} ,{imovel.NumCasa || "não especificado"} - {imovel.Bairro || "não especificado"} </p>
             </div>
             <div>
               <h3>Quartos: </h3>

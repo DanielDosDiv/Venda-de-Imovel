@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import api from '../../services/api.js'
 import InputPreset from '../../components/Input.jsx'
 import css from './Login.module.css'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
+
 function Login() {
     const navigate = useNavigate()
     const NomeUser = useRef()
@@ -43,6 +44,7 @@ function Login() {
             window.alert(`Falha no login: ${error.response?.data?.message || error.message}`)
         }
     }
+
     return (
         <div className={css.body}>
             <div className={css.container}>
@@ -53,7 +55,7 @@ function Login() {
                         <InputPreset type={"email"} id={"text"} placeholder={"Exemple@email.com"} label={"Email"} ref={EmailUser} />
 
                         <InputPreset type={"password"} id={"password"} placeholder={"*******"} label={"Senha"} ref={PasswordUser} />
-                        <Link to="/cadastro" >Não tem conta ainda? </Link>
+                        <Link to="/cadastro">Não tem conta ainda? </Link>
 
                         <Btn text={"Login"} className={"btn_grande"} onClick={Logar} />
                     </form>
@@ -65,4 +67,5 @@ function Login() {
         </div>
     )
 }
+
 export default Login

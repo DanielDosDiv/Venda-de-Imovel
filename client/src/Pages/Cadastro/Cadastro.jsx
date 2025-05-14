@@ -12,18 +12,24 @@ function Cadastro() {
     const PasswordUser = useRef()
     async function Cadastrar(event){
         event.preventDefault()
-        try {
-            const guardarApi = await api.post('/cadastro', {
-                name: NomeUser.current.value,
-                email: EmailUser.current.value,
-                password: PasswordUser.current.value
-            })
-            // setUser(guardarApi.data)
-            window.alert("Usuário cadastrado com sucesso")
-            navigate('/login')
-        } catch (error) {
-            window.alert("Não foi possível cadastrar o usuário" ,error)
-            
+        if (!EmailUser || !PasswordUser) {
+            window.alert("Por Favor Preencha todos os Dados")
+        }
+        else{
+
+            try {
+                const guardarApi = await api.post('/cadastro', {
+                    name: NomeUser.current.value,
+                    email: EmailUser.current.value,
+                    password: PasswordUser.current.value
+                })
+                // setUser(guardarApi.data)
+                window.alert("Usuário cadastrado com sucesso")
+                navigate('/login')
+            } catch (error) {
+                window.alert("Não foi possível cadastrar o usuário" ,error)
+                
+            }
         }
   
     }

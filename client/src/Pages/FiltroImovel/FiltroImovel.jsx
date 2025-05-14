@@ -98,7 +98,7 @@ function FiltroImovel() {
                                 <i className="fa-solid fa-location-dot"></i>
                                 {imovel.Cidade || "Cidade não especificada"},
                             </h1>
-                            <h1>{getNomePais(imovel) || " País não especificado"}</h1>
+                            <h1>{imovel.Pais.nome || " País não especificado"}</h1>
                         </div>
 
                         <div className={css.display_flax}>

@@ -19,7 +19,7 @@ app.use("/", User)
 app.use("/", paises)
 app.use("/", tipos)
 app.use("/", tiposVenda)
-app.use("/", privateRouter)
+app.use("/",auth, privateRouter)
 app.listen(4000, ()=>{
     console.log("Servidor rodando 🚀")
 })

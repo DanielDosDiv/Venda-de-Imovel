@@ -1,36 +1,36 @@
 import css from './NovoImovel.module.css'
 import AnimationHouse from '../../components/animation/AnimationHouse.jsx'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../../services/api.js'
 
 function NovoImovel() {
-    // Mantenha apenas as refs para inputs simples
-    const Cidade = useRef()
-    const Comprimento = useRef()
-    const Largura = useRef()
-    const FotoCasa = useRef()
-    const qtdQuartos = useRef()
-    const navegate = useNavigate()
-
-    // Estados para selects e valores complexos
+    const navigate = useNavigate()
+    const [etapa, setEtapa] = useState(1)
     const [pais, setPais] = useState([])
     const [tipo, setTipo] = useState([])
     const [tipoVenda, setTipoVenda] = useState([])
     const [imgCasa, setImgCasa] = useState(null)
-    
-    // Estados para valores selecionados
+    const [valorFormatado, setValorFormatado] = useState('')
+    const [erro, setErro] = useState(null)
+    const [carregando, setCarregando] = useState(false)
+
     const [formData, setFormData] = useState({
+        cidade: "",
+        bairro: "",
+        rua: "",
+        numCasa: "",
         paisId: "",
         tipoImovelId: "",
         tipoVendaId: "",
-        preco: 0
+        preco: 0,
+        comprimento: "",
+        largura: "",
+        fotoCasa: "",
+        qtdQuartos: ""
     })
 
     const UserID = localStorage.getItem('id')
-
-    // Preço formatado
-    const [valorFormatado, setValorFormatado] = useState('')
 
     const handleChangePreco = (e) => {
         const rawValue = e.target.value
@@ -54,14 +54,12 @@ function NovoImovel() {
             ...prev,
             [name]: value
         }))
+
+        if (name === "fotoCasa") {
+            setImgCasa(value || null)
+        }
     }
 
-    function GetFotoCasa() {
-        const fotoDaCasa = FotoCasa.current.value
-        setImgCasa(fotoDaCasa || null)
-    }
-
-    // Buscar dados
     useEffect(() => {
         async function loadData() {
             try {
@@ -70,7 +68,7 @@ function NovoImovel() {
                     api.get('/tipos'),
                     api.get('/tiposVenda')
                 ])
-                
+
                 setPais(paisesRes.data.paises)
                 setTipo(tiposRes.data.tipos)
                 setTipoVenda(tiposVendaRes.data.tiposVenda)
@@ -84,47 +82,51 @@ function NovoImovel() {
 
     async function CadastrarImovel(event) {
         event.preventDefault()
+        console.log("Tentando cadastrar...", formData)
 
-        // Validação completa
         if (
-            !Cidade.current?.value ||
+            !formData.cidade ||
             !formData.paisId ||
             !formData.tipoImovelId ||
             !formData.tipoVendaId ||
             formData.preco <= 0 ||
-            !Comprimento.current?.value ||
-            !Largura.current?.value ||
-            !FotoCasa.current?.value ||
-            !qtdQuartos.current?.value
+            !formData.comprimento ||
+            !formData.largura ||
+            !formData.fotoCasa ||
+            !formData.qtdQuartos ||
+            !formData.rua ||
+            !formData.numCasa ||
+            !formData.bairro
         ) {
             alert("Por favor, preencha todos os campos obrigatórios.")
             return
         }
-
-        try {
-            const response = await api.post('/novoImovel', {
-                cidade: Cidade.current.value,
+        const data = {
+                cidade: formData.cidade,
                 paisId: formData.paisId,
                 tipoImovelId: formData.tipoImovelId,
                 tipoVendaId: formData.tipoVendaId,
                 preco: formData.preco,
-                largura: parseFloat(Largura.current.value),
-                comprimento: parseFloat(Comprimento.current.value),
-                fotoCasa: FotoCasa.current.value,
-                qtdQuartos: parseInt(qtdQuartos.current.value),
-                usuarioId: UserID,
-            })
+                largura: parseFloat(formData.largura),
+                comprimento: parseFloat(formData.comprimento),
+                fotoCasa: formData.fotoCasa,
+                qtdQuartos: parseInt(formData.qtdQuartos),
+                rua: formData.rua,
+                numCasa: parseInt(formData.numCasa),
+                bairro: formData.bairro,
+                usuarioId: UserID
+        }
+        try {
+            await api.post('/novoImovel', data)
 
-            alert("Imóvel cadastrado com sucesso!")
-            // Limpar formulário após sucesso
-            navegate("/imoveis")
-            
+            console.log("Imóvel cadastrado com sucesso!")
+            navigate("/imoveis")
+
         } catch (error) {
-            console.error("Erro detalhado:", error.response?.data || error.message)
+            console.error("Erro ao cadastrar:", error.response?.data || error)
             alert(`Erro ao cadastrar: ${error.response?.data?.message || "Verifique o console"}`)
         }
     }
-
     return (
         <div className={css.container}>
             <div className={css.container_esquerdo}>
@@ -134,87 +136,139 @@ function NovoImovel() {
                     </div>
                 }
             </div>
-            
+
             <div className={css.container_direito}>
                 <h1>Novo Imóvel</h1>
                 <form className={css.preset_input} onSubmit={CadastrarImovel}>
-                    <input type="text" placeholder='Cidade' ref={Cidade} required />
 
-                    <select 
-                        name="paisId"
-                        value={formData.paisId}
-                        onChange={handleChange}
-                        required
-                    >
-                        <option value="">Selecione um país</option>
-                        {pais.map((pais) => (
-                            <option key={pais.id} value={pais.id}>
-                                {pais.nome}
-                            </option>
-                        ))}
-                    </select>
+                    {etapa === 1 && (
+                        <>
+                            <input
+                                type="text"
+                                placeholder='Cidade'
+                                name="cidade"
+                                value={formData.cidade}
+                                onChange={handleChange}
+                                required
+                            />
+                            <input
+                                type="text"
+                                placeholder='Bairro'
+                                name="bairro"
+                                value={formData.bairro}
+                                onChange={handleChange}
+                                required
+                            />
+                            <input
+                                type="text"
+                                placeholder='Rua'
+                                name="rua"
+                                value={formData.rua}
+                                onChange={handleChange}
+                                required
+                            />
+                            <input
+                                type="number"
+                                min={0}
+                                placeholder='N° da Casa'
+                                name="numCasa"
+                                value={formData.numCasa}
+                                onChange={handleChange}
+                                required
+                            />
+                        </>
+                    )}
 
-                    <select 
-                        name="tipoImovelId"
-                        value={formData.tipoImovelId}
-                        onChange={handleChange}
-                        required
-                    >
-                        <option value="">Tipo Imóvel</option>
-                        {tipo.map((tipos) => (
-                            <option key={tipos.id} value={tipos.id}>
-                                {tipos.nome}
-                            </option>
-                        ))}
-                    </select>
+                    {etapa === 2 && (
+                        <>
+                            <input
+                                type="text"
+                                placeholder="R$ 0,00"
+                                value={valorFormatado}
+                                onChange={handleChangePreco}
+                                required
+                            />
+                            <input
+                                type="number"
+                                placeholder='Comprimento'
+                                name="comprimento"
+                                value={formData.comprimento}
+                                onChange={handleChange}
+                                required
+                                step="0.01"
+                                min="0"
+                            />
+                            <input
+                                type="number"
+                                placeholder='Largura'
+                                name="largura"
+                                value={formData.largura}
+                                onChange={handleChange}
+                                required
+                                step="0.01"
+                                min="0"
+                            />
+                            <input
+                                type="number"
+                                placeholder="Quantidade de quartos"
+                                min="1"
+                                name="qtdQuartos"
+                                value={formData.qtdQuartos}
+                                onChange={handleChange}
+                                required
+                            />
+                        </>
+                    )}
 
-                    <input
-                        type="text"
-                        placeholder="R$ 0,00"
-                        value={valorFormatado}
-                        onChange={handleChangePreco}
-                        required
-                    />
+                    {etapa === 3 && (
+                        <>
+                            <select name="tipoVendaId" value={formData.tipoVendaId} onChange={handleChange} required>
+                                <option value="">Tipo da Venda</option>
+                                {tipoVenda.map((tipos) => (
+                                    <option key={tipos.id} value={tipos.id}>{tipos.nome}</option>
+                                ))}
+                            </select>
+                            <select name="paisId" value={formData.paisId} onChange={handleChange} required>
+                                <option value="">Selecione um país</option>
+                                {pais.map((pais) => (
+                                    <option key={pais.id} value={pais.id}>{pais.nome}</option>
+                                ))}
+                            </select>
+                            <select name="tipoImovelId" value={formData.tipoImovelId} onChange={handleChange} required>
+                                <option value="">Tipo Imóvel</option>
+                                {tipo.map((tipos) => (
+                                    <option key={tipos.id} value={tipos.id}>{tipos.nome}</option>
+                                ))}
+                            </select>
+                            <input
+                                type="url"
+                                placeholder='URL da foto da casa'
+                                name="fotoCasa"
+                                value={formData.fotoCasa}
+                                onChange={handleChange}
+                                required
+                            />
+                        </>
+                    )}
 
-                    <input type="number" placeholder='Comprimento' ref={Comprimento} required step="0.01" min="0" />
-                    <input type="number" placeholder='Largura' ref={Largura} required step="0.01" min="0" />
-
-                    <input
-                        type="number"
-                        placeholder="Quantidade de quartos"
-                        min="1"
-                        ref={qtdQuartos}
-                        required
-                    />
-
-                    <select 
-                        name="tipoVendaId"
-                        value={formData.tipoVendaId}
-                        onChange={handleChange}
-                        required
-                    >
-                        <option value="">Tipo da Venda</option>
-                        {tipoVenda.map((tipos) => (
-                            <option key={tipos.id} value={tipos.id}>
-                                {tipos.nome}
-                            </option>
-                        ))}
-                    </select>
-
-                    <input 
-                        type="url" 
-                        placeholder='URL da foto da casa' 
-                        ref={FotoCasa} 
-                        onChange={GetFotoCasa} 
-                        required 
-                    />
-                    
-                    <button type="submit">Adicionar Imóvel</button>
+                    <div className={css.botoes_carrossel}>
+                        {etapa > 1 && (
+                            <button type="button" onClick={() => setEtapa(etapa - 1)}>
+                                Voltar
+                            </button>
+                        )}
+                        {etapa < 3 ? (
+                            <button type="button" onClick={() => setEtapa(etapa + 1)}>
+                                Próximo
+                            </button>
+                        ) : (
+                            <button type="submit">Adicionar Imóvel</button>
+                        )}
+                    </div>
                 </form>
             </div>
         </div>
     )
-
 }
 
 export default NovoImovel

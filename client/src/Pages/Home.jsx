@@ -79,7 +79,7 @@ function Home() {
                 </div>
             </div>
             <div className="container-flutuante">
-                <select value={paisSelecionado} onChange={(e) => setPaisSelecionado(e.target.value)} ref={pais}>
+                <select className='preset-input' value={paisSelecionado} onChange={(e) => setPaisSelecionado(e.target.value)} ref={pais}>
                     <option value="">Selecione um país</option>
                     {pais.map((pais) => (
                         <option key={pais.id} value={pais.id}>
@@ -88,7 +88,7 @@ function Home() {
                     ))}
                 </select>
 
-                <select value={tipoSelecionado} onChange={(e) => setTipoSelecionado(e.target.value)} ref={tipo}>
+                <select className='preset-input' value={tipoSelecionado} onChange={(e) => setTipoSelecionado(e.target.value)} ref={tipo}>
                     <option value="">Tipo Imóvel</option>
                     {tipo.map((tipos) => (
                         <option key={tipos.id} value={tipos.id}>

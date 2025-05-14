@@ -1,57 +1,119 @@
 .container {
-    /* background-color: red; */
     margin: 3%;
     display: flex;
-    flex-wrap: wrap; /* Isso já está correto - permite a quebra de linha */
-    gap: 9%; /* Cuidado com porcentagem no gap */
+    flex-wrap: wrap;
+    gap: 5%; /* Ajustei para um valor mais adequado */
     max-width: 100%;
- 
+    box-sizing: border-box;
 }
-.card_user{
-    width: 37%;
+
+.card_user {
+    width: 37%; /* Ajuste para telas grandes */
     height: 206px;
     background-color: #EDEAEA;
     border-radius: 9px;
     display: flex;
     padding-left: 2%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
     align-items: center;
     gap: 5%;
     margin-bottom: 3%;
+    box-sizing: border-box;
 }
-.user_info h1{
+
+.user_info h1 {
     font-size: 23px;
     font-weight: 700;
     color: #2B1B12;
     margin-bottom: 15px;
-
 }
-.user_info{
+
+.user_info {
     gap: 10%;
 }
-.display_flexs{
-    display: flex;
 
+.display_flexs {
+    display: flex;
     margin-bottom: 10px;
     align-items: center;
 }
-.display_flexs p{
+
+.display_flexs p {
     font-size: 16px;
     font-weight: 600;
     color: #2B1B12;
     padding-left: 10px;
 }
-.user_img{
+
+.user_img {
     background-color: #4C3434;
     width: 147px;
     height: 147px;
     border-radius: 10px;
-
 }
-.user_img img{
+
+.user_img img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* cobre todo o espaço mantendo proporção */
-    /* ou use 'contain' para mostrar a imagem inteira (sem cortes) */
+    object-fit: cover;
+}
+
+/* Media queries para tornar responsivo */
+@media (max-width: 1024px) {
+    .container {
+        gap: 5%; /* Ajusta o gap */
+    }
+
+    .card_user {
+        width: 45%; /* Cards ocupam 45% da largura da tela */
+    }
+
+    .user_info h1 {
+        font-size: 20px; /* Ajusta o tamanho da fonte para telas médias */
+    }
+
+    .display_flexs p {
+        font-size: 14px; /* Ajusta o tamanho da fonte para telas médias */
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        gap: 3%; /* Ajusta o gap */
+    }
+
+    .card_user {
+        width: 90%; /* Cards ocupam 90% da largura da tela */
+    }
+
+    .user_info h1 {
+        font-size: 18px; /* Ajusta o tamanho da fonte para telas pequenas */
+    }
+
+    .display_flexs p {
+        font-size: 12px; /* Ajusta o tamanho da fonte para telas pequenas */
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        gap: 2%; /* Ajusta o gap para telas muito pequenas */
+    }
+
+    .card_user {
+        width: 100%; /* Cards ocupam 100% da largura da tela */
+    }
+
+    .user_info h1 {
+        font-size: 16px; /* Ajuste de fonte */
+    }
+
+    .display_flexs p {
+        font-size: 12px; /* Ajuste de fonte */
+    }
+
+    .user_img {
+        width: 120px; /* Ajusta a imagem do usuário para telas menores */
+        height: 120px;
+    }
 }

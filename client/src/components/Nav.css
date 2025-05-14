@@ -12,9 +12,10 @@
     align-items: center;
     gap: 40px;
     font-size: 18px;
-    list-style: none; /* Remove marcadores padrão das <li> */
-    padding: 0; /* Remove padding padrão */
-    margin: 0; /* Remove margens padrão */
+    list-style: none;
+    padding: 0; 
+    margin: 0;
+    /* background-color: red; */
 }
 .nav-list li a {
     position: relative;
@@ -50,6 +51,7 @@
     justify-content: center;
     align-items: center;
     gap: 30px;
+    /* background-color: red; */
 }
 
 .div-direito button:hover{
