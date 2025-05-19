@@ -2,7 +2,7 @@ import style from './Nav.css'
 import logo from '../img/logo.png'
 import userLogo from '../img/user.svg'
 import Btn from './Button.jsx'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import ModalAcessoNegado from './Modal/AcessoNegado/ModalDeUserSemLgoin.jsx'
 import ModalLogoff from './Modal/Logoff/Logoff.jsx'
@@ -13,9 +13,25 @@ function Nav() {
     const navigate = useNavigate()
     const [mostrarModal, setMostrarModal] = useState(false)
     const [mostrarModalSair, setMostrarModalSair] = useState(false)
+    const [menuAberto, setMenuAberto] = useState(false)
 
     const token = localStorage.getItem('token')
     const nomedoUser = localStorage.getItem('name')
+    const id = localStorage.getItem('Id')
+
+    // Monitora o redimensionamento da janela
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth > 768) {
+                setMenuAberto(false)
+            }
+        }
+
+        window.addEventListener('resize', handleResize)
+        return () => {
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
 
     function goToNewImovel() {
         if (!token) {
@@ -24,20 +40,25 @@ function Nav() {
             navigate("/novo-imovel")
         }
     }
-    
 
     function fecharModal() {
         setMostrarModal(false)
     }
+
     function fecharModalSair() {
         setMostrarModalSair(false)
     }
 
-    function LogoffUser(){
+    function LogoffUser() {
         localStorage.clear('token')
         localStorage.clear('name')
         setMostrarModalSair(true)
     }
+
+    function toggleMenu() {
+        setMenuAberto(!menuAberto)
+    }
+
     return (
         <>
             {mostrarModal && (
@@ -46,19 +67,19 @@ function Nav() {
                     onClose={fecharModal}
                 />
             )}
-            {mostrarModalSair &&(
-                <ModalLogoff 
-                isOpen={mostrarModalSair}
-                onClose={fecharModalSair}
+            {mostrarModalSair && (
+                <ModalLogoff
+                    isOpen={mostrarModalSair}
+                    onClose={fecharModalSair}
                 />
-            )
-                
-            }
+            )}
 
             <div className="nav">
                 <div className="logo">
                     <img src={logo} alt="Logo" />
                 </div>
+
+                {/* Menu Desktop */}
                 <ul className="nav-list">
                     <li>
                         <Link to="/" className="nav-link">Home</Link>
@@ -73,15 +94,94 @@ function Nav() {
                         <Link to="/contadores" className="nav-link">Contadores</Link>
                     </li>
                 </ul>
+
+                {/* Área direita - Desktop */}
                 <div className="div-direito">
-                    <p>{nomedoUser || <FeatherIcon icon='user' className="user" onClick={() => navigate("/login")}/>}</p>
+                    <p onClick={() => navigate(`/editUser/${id}`)}>{nomedoUser}</p>
+                    {id ? (
+                        <FeatherIcon icon='user' className="user" onClick={() => navigate("/login")} />
+
+                    ) : (
+                        <></>
+                    )}
                     <div className="FeatherIcon" onClick={LogoffUser}>
                         <FeatherIcon icon="log-out" />
                     </div>
                     <Btn text={"Novo Imóvel"} className={"btn"} onClick={goToNewImovel} />
                 </div>
+
+                {/* Ícone do menu hambúrguer para mobile */}
+                <div className="menu-icon" onClick={toggleMenu}>
+                    <FeatherIcon icon={menuAberto ? "x" : "menu"} />
+                </div>
+
+                {/* Menu Mobile */}
+                <div className={`menu-mobile ${menuAberto ? 'active' : ''}`}>
+                    <ul className="menu-mobile-list">
+                        <li>
+                            <Link to="/" className="menu-mobile-link" onClick={() => setMenuAberto(false)}>Home</Link>
+                        </li>
+                        <li>
+                            <Link to="/imoveis" className="menu-mobile-link" onClick={() => setMenuAberto(false)}>Imóveis</Link>
+                        </li>
+                        <li>
+                            <Link to="/comentarios" className="menu-mobile-link" onClick={() => setMenuAberto(false)}>Comentários</Link>
+                        </li>
+                        <li>
+                            <Link to="/contadores" className="menu-mobile-link" onClick={() => setMenuAberto(false)}>Contadores</Link>
+                        </li>
+                    </ul>
+
+                    {/* Área de usuário no menu mobile */}
+                    <div className="menu-mobile-user">
+                        {id ? (
+                            <p onClick={() => {
+                                navigate(`/editUser/${id}`);
+                                setMenuAberto(false);
+                            }}>{nomedoUser}</p>
+                        ) : (
+                            <p>Faça login</p>
+                        )}
+                        <div className="menu-mobile-user-actions">
+                            {id ? (
+                                <FeatherIcon
+                                    icon='user'
+                                    onClick={() => {
+                                        navigate("/login");
+                                        setMenuAberto(false);
+                                    }}
+                                />
+
+
+                            ) :
+                                (
+                                    <></>
+                                )
+                            }
+                            <div onClick={() => {
+                                LogoffUser();
+                                setMenuAberto(false);
+                            }}>
+                                <FeatherIcon icon="log-out" />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Botão no menu mobile */}
+                    <div className="menu-mobile-btn">
+                        <Btn
+                            text={"Novo Imóvel"}
+                            className={"btn_grande"}
+                            onClick={() => {
+                                goToNewImovel();
+                                setMenuAberto(false);
+                            }}
+                        />
+                    </div>
+                </div>
             </div>
         </>
     )
 }
+
 export default Nav

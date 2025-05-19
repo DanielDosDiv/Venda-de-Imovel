@@ -10,6 +10,7 @@ import Cadastro from './Pages/Cadastro/Cadastro.jsx';
 import Login from './Pages/Login/Login.jsx';
 import DetalheImovel from './Pages/Detalhe_Imovel/Detalhe.jsx';
 import FiltroImovel from './Pages/FiltroImovel/FiltroImovel.jsx';
+import EditUserPage from './Pages/EditUserPage/EditUserPage.jsx';
 function App() {
   return (
     <BrowserRouter>
@@ -41,6 +42,7 @@ function AppContent() {
         <Route path="*" element={<Navigate to="/" />} />
         <Route path="/imovel/:id" element={<DetalheImovel />} />
         <Route path="/filtroImovel/:paisId/:tipoImovelId/:preco" element={<FiltroImovel/>}/>
+        <Route path="/editUser/:id" element={<EditUserPage/>}/>
       </Routes>
     </div>
   );

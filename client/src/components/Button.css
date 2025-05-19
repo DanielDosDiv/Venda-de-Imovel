@@ -48,8 +48,7 @@
     background-color: transparent !important;
 }
 .btn:hover{
-    width: 160px;
-
+        background-color: #3f3024;
 }
 .btn_grande:hover ,.btn-pequeno:hover {
     background-color: #3f3024;

@@ -21,6 +21,7 @@ model Imovel {
   Bairro       String?
   NumCasa      Int?
   Preco        Float
+  cep          String?
   FotoCasa     String
   Largura      Float
   Comprimento  Float

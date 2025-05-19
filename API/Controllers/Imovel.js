@@ -76,7 +76,8 @@ router.post('/novoImovel', async (req, res) => {
                 usuarioId,
                 Bairro: bairro,
                 NumCasa: parseInt(numCasa),
-                Rua: rua
+                Rua: rua,
+                cep: toString.cep
             }
         });
 
