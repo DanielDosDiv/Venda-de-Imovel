@@ -1,19 +1,24 @@
 import css from './NovoImovel.module.css';
 import AnimationHouse from '../../components/animation/AnimationHouse.jsx';
+// import MsgSuccess from '../../components/animation/.jsx';
+import ModalDeSatus from '../../components/Modal/ModalDeSatus/ModalDeSatus.jsx';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CepApi from '../../services/api.js';
 import api from '../../services/api.js';
 import axios from 'axios';
+
 function NovoImovel() {
     const navigate = useNavigate();
+
     const [etapa, setEtapa] = useState(1);
     const [pais, setPais] = useState([]);
     const [tipo, setTipo] = useState([]);
     const [tipoVenda, setTipoVenda] = useState([]);
     const [imgCasa, setImgCasa] = useState(null);
     const [valorFormatado, setValorFormatado] = useState('');
-    const [erro, setErro] = useState(null);
+    const [status, setStatus] = useState(false);
+    const [msgSuccessOpen, setMsgSuccessOpen] = useState(null); // ✅ nome claro
 
     const [formData, setFormData] = useState({
         cidade: "",
@@ -62,41 +67,37 @@ function NovoImovel() {
         }
     };
 
- const getCEP = async (cep) => {
-    if (!cep || cep.length < 8) return;
+    const getCEP = async (cep) => {
+        if (!cep || cep.length < 8) return;
 
-    try {
-        // Limpa os campos antes de buscar novo CEP
-        if (formData.bairro || formData.cidade || formData.rua) {
-            setFormData(prev => ({
-                ...prev,
-                bairro: '',
-                rua: '',
-                cidade: ''
-            }));
+        try {
+            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+            const data = response.data;
+
+            if (data) {
+                const numeros = cep.replace(/\D/g, '').slice(0, 8);
+                const cepFormatado = numeros.replace(/^(\d{5})(\d{0,3})$/, "$1-$2");
+
+                setFormData(prev => ({
+                    ...prev,
+                    cep: cepFormatado,
+                    rua: data.logradouro || "",
+                    bairro: data.bairro || "",
+                    cidade: data.localidade || "",
+                }));
+            }
+        } catch (error) {
+            console.error("Erro ao buscar CEP:", error);
         }
+    };
 
-        const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-        const data = response.data;
-
-        if (data) {
-            const numeros = cep.replace(/\D/g, '').slice(0, 8);
-            const cepFormatado = numeros.replace(/^(\d{5})(\d{0,3})$/, "$1-$2");
-
-            setFormData(prev => ({
-                ...prev,
-                cep: cepFormatado,
-                rua: data.logradouro || "",
-                bairro: data.bairro || "",
-                cidade: data.localidade || "",
-            }));
-        }
-    } catch (error) {
-        console.error("Erro ao buscar CEP:", error);
-        // alert("CEP inválido ou não encontrado.");
+    const FecharModal = () => {
+        setMsgSuccessOpen(false);
+    };
+    const GoToImoveis = () =>{
+        setMsgSuccessOpen(false)
+        navigate('/imoveis');
     }
-};
-
 
     useEffect(() => {
         async function loadData() {
@@ -135,7 +136,8 @@ function NovoImovel() {
             !formData.numCasa ||
             !formData.bairro
         ) {
-            alert("Por favor, preencha todos os campos obrigatórios.");
+            setStatus(false)
+            setMsgSuccessOpen(true);
             return;
         }
 
@@ -159,15 +161,28 @@ function NovoImovel() {
         try {
             await api.post('/novoImovel', data);
             console.log("Imóvel cadastrado com sucesso!");
-            navigate("/imoveis");
+            setMsgSuccessOpen(true); // ✅ abrir modal
+            setStatus(true)
         } catch (error) {
             console.error("Erro ao cadastrar:", error.response?.data || error);
-            alert(`Erro ao cadastrar: ${error.response?.data?.message || "Verifique o console"}`);
+            setStatus(false)
+            setMsgSuccessOpen(true); // ✅ abrir modal
+            // alert(`Erro ao cadastrar: ${error.response?.data?.message || "Verifique o console"}`);
         }
     }
 
     return (
         <div className={css.container}>
+            {msgSuccessOpen && (
+                <ModalDeSatus
+                isOpen={msgSuccessOpen}
+                onClose={status === false ? FecharModal : GoToImoveis}
+                Titulo={status === true ? "Sucesso" : "Erro"}
+                descricao={status === true ? "Imóvel criado com sucesso" : "Erro ao criar imóvel, preencha todas as informações"}
+                status={status}
+                />
+            )}
+
             <div className={css.container_esquerdo}>
                 {imgCasa === null ? <AnimationHouse /> :
                     <div className={css.img_casa}>

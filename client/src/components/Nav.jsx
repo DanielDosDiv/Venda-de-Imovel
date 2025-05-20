@@ -5,7 +5,7 @@ import Btn from './Button.jsx'
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import ModalAcessoNegado from './Modal/AcessoNegado/ModalDeUserSemLgoin.jsx'
-import ModalLogoff from './Modal/Logoff/Logoff.jsx'
+import ModalLogoff from './Modal/ModalDeSatus/ModalDeSatus.jsx'
 import FeatherIcon from 'feather-icons-react'
 import api from '../services/api'
 
