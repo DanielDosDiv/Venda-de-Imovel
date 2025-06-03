@@ -10,7 +10,8 @@
 
 # production
 /build
-
+#Variáveis de ambeiente 
+.env
 # misc
 .DS_Store
 .env.local
