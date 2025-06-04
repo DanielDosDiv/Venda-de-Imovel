@@ -12,6 +12,8 @@
     "dotenv": "^16.4.7"
   },
   "scripts": {
-    "dev": "node api/sever.js"
+    "dev": "node sever.js",
+    "build": "npx prisma generate",
+    "start": "node sever.js"
   }
 }
