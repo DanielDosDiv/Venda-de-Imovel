@@ -11,7 +11,8 @@
     "cors": "^2.8.5",
     "@prisma/client": "^6.5.0",
     "bcrypt": "^5.1.1",
-    "dotenv": "^16.4.7"
+    "dotenv": "^16.4.7",
+    "axios": "^1.8.4"
   },
   "scripts": {
     "dev": "node sever.js",
