@@ -14,6 +14,7 @@ app.use(cors())
 // app.use(cors({
 //   origin: 'https://venda-de-imovel.netlify.app',
 // }));
+const PORT = process.env.PORT
 app.use(express.json())
 app.use("/",  comentario)
 app.use("/",  Imovel)
@@ -22,7 +23,7 @@ app.use("/", paises)
 app.use("/", tipos)
 app.use("/", tiposVenda)
 app.use("/",auth, privateRouter)
-app.listen(4000, ()=>{
+app.listen(PORT, ()=>{
     console.log("Servidor rodando 🚀")
 })
 //iUs8QhyJS3xze4k3
