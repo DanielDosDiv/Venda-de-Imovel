@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "main": "sever.js",
   "type": "module",
+  "engines": {
+    "node": "14.x"
+  },
   "dependencies": {
+    "start": "node sever.js",
     "@prisma/client": "^6.5.0",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",

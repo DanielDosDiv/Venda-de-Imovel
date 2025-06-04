@@ -10,10 +10,10 @@ import paises from './Controllers/Paises.js'
 import tipos from './Controllers/Tipos.js'
 import tiposVenda from './Controllers/TipoVenda.js'
 const app = express()
-const cors = require('cors');
-app.use(cors({
-  origin: 'https://venda-de-imovel.netlify.app',
-}));
+app.use(cors())
+// app.use(cors({
+//   origin: 'https://venda-de-imovel.netlify.app',
+// }));
 app.use(express.json())
 app.use("/",  comentario)
 app.use("/",  Imovel)
