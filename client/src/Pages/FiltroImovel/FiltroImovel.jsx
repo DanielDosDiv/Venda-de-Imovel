@@ -9,7 +9,7 @@ import Btn from '../../components/Button.jsx';
 import Loading from '../../components/animation/Loading.jsx';
 import Notfound from "../../components/animation/Notfound.jsx";
 function FiltroImovel() {
-    const { paisId, tipoImovelId , preco } = useParams();
+    const { paisId, tipoImovelId, preco } = useParams();
     const [allImoveis, setAllImoveis] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -29,7 +29,7 @@ function FiltroImovel() {
         return "País não especificado";
     };
 
-    async function getImoveisByID(paisId, tipoImovelId , preco) {
+    async function getImoveisByID(paisId, tipoImovelId, preco) {
         try {
             // setLoading(true);
             // await new Promise(resolve => setTimeout(resolve, 1500));
@@ -47,7 +47,7 @@ function FiltroImovel() {
     }
 
     useEffect(() => {
-        getImoveisByID(paisId, tipoImovelId , preco);
+        getImoveisByID(paisId, tipoImovelId, preco);
     }, []);
 
     if (loading) {
@@ -75,7 +75,9 @@ function FiltroImovel() {
 
     if (allImoveis.length === 0) {
         return (
-            <Notfound/>
+            <Notfound
+                detalheErro={"Nenhum imóvel encontrado com os critérios selecionados."}
+            />
         );
     }
 

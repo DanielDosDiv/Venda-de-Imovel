@@ -7,6 +7,7 @@ import icon_Rooms from '../../img/rooms.svg';
 import size from '../../img/size.svg';
 import Btn from '../../components/Button.jsx';
 import Loading from '../../components/animation/Loading.jsx';
+import Notfound from "../../components/animation/Notfound.jsx";
 
 function Imoveis() {
     const [allImoveis, setAllImoveis] = useState([]);
@@ -63,16 +64,9 @@ function Imoveis() {
 
     if (error) {
         return (
-            <div className={css.errorContainer}>
-                <p>{error}</p>
-                <Btn 
-                    text={"Tentar novamente"} 
-                    onClick={() => {
-                        setError(null);
-                        getImoveis();
-                    }} 
-                />
-            </div>
+            <Notfound
+            detalheErro={"Nenhum imóvel encontrado no momento"}
+            />
         );
     }
 

@@ -4,10 +4,11 @@ import iconUser from '../../img/iconUser.png';
 import api from '../../services/api';
 import { useEffect, useState } from 'react';
 import Loading from '../../components/animation/Loading';
+import Notfound from '../../components/animation/Notfound';
 function Contadores() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [error, setError] = useState(null);
   async function getUsers() {
     try {
       setLoading(true);
@@ -20,6 +21,7 @@ function Contadores() {
       setUsers(response.data.UserDb);
     } catch (error) {
       console.error("Erro ao buscar usuários:", error);
+      setError(true)
     } finally {
       setLoading(false);
     }
@@ -29,14 +31,22 @@ function Contadores() {
     getUsers();
   }, []);
 
-  if (loading){
-    return(
-        <div>
-            <Loading/>
-        </div>
-    ) 
-    
-} 
+  if (loading) {
+    return (
+      <div>
+        <Loading />
+      </div>
+    )
+
+
+  }
+  if (error) {
+    return (
+      <Notfound
+        detalheErro={"Nenhum contador encontrado no momento"}
+      />
+    );
+  }
 
   return (
     <div className={css.container}>

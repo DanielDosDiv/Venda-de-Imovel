@@ -1,8 +1,9 @@
 import React from 'react';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import style from './Loading.module.css'
+import Button from '../Button';
 
-const Notfound = () => {
+const Notfound = ({detalheErro}) => {
     return (
         <div className={style.loading}>
 
@@ -11,8 +12,12 @@ const Notfound = () => {
                 loop
                 autoplay
             />
-                <p>Nenhum imóvel disponível no momento</p>
-
+                <p>{detalheErro}</p>
+            <Button
+            text={"Tentar novamente"}
+            onClick={() => window.location.reload()}
+            className={"btn_grande"}
+            />
         </div>
 
     );

@@ -2,6 +2,7 @@ import api from "../../services/api";
 import style from "./Comentarios.module.css";
 import { useEffect, useState } from 'react';
 import Loading from "../../components/animation/Loading";
+import Notfound from "../../components/animation/Notfound";
 
 function Comentarios() {
     const [comentarios, setComentarios] = useState([]);
@@ -12,12 +13,12 @@ function Comentarios() {
         try {
             setLoading(true);
             const response = await api.get("/listAllComment");
-            
+
             // Verifica se a resposta contém um array
-            const data = Array.isArray(response.data) 
-                ? response.data 
+            const data = Array.isArray(response.data)
+                ? response.data
                 : response.data.comments || response.data.listAllComment || [];
-            
+
             setComentarios(data);
             console.log(data)
             setError(null);
@@ -34,15 +35,22 @@ function Comentarios() {
         getAllComments();
     }, []);
 
-    if (loading){
-        return(
+    if (loading) {
+        return (
             <div>
-                <Loading/>
+                <Loading />
             </div>
-        ) 
-        
-    } 
-    if (error) return <div className={style.error}>{error}</div>;
+        )
+
+    }
+    if (error) {
+        return (
+            <Notfound
+            detalheErro={"Nenhum comentário encontrado no momento"}
+            />
+        );
+    }
+
 
     return (
         <div>
@@ -59,9 +67,9 @@ function Comentarios() {
                             <div className={style.info_comentario}>
                                 <div className={style.dadosUser}>
                                     <div className={style.fotoUser}>
-                                        <img 
-                                            src="https://plus.unsplash.com/premium_photo-1688891564708-9b2247085923?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cmFuZG9tJTIwcGVyc29ufGVufDB8fDB8fHww" 
-                                            alt="Usuário" 
+                                        <img
+                                            src="https://plus.unsplash.com/premium_photo-1688891564708-9b2247085923?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cmFuZG9tJTIwcGVyc29ufGVufDB8fDB8fHww"
+                                            alt="Usuário"
                                         />
                                     </div>
                                     <div className={style.nameUser}>
