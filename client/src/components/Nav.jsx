@@ -98,7 +98,7 @@ function Nav() {
                 {/* Área direita - Desktop */}
                 <div className="div-direito">
                     <p onClick={() => navigate(`/editUser/${id}`)}>{nomedoUser}</p>
-                    {id ? (
+                    {!id ? (
                         <FeatherIcon icon='user' className="user" onClick={() => navigate("/login")} />
 
                     ) : (
