@@ -10,9 +10,9 @@ import comentario from '../Controllers/Comentario.js';
 import paises from '../Controllers/Paises.js';
 import tipos from '../Controllers/Tipos.js';
 import tiposVenda from '../Controllers/TipoVenda.js';
-
+import serverless from 'serverless-http'; 
 dotenv.config();
-
+const PORT = process.env.PORT || 4000;
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -25,12 +25,14 @@ app.use("/", tipos);
 app.use("/", tiposVenda);
 app.use("/", auth, privateRouter);
 
-
+export default (req, res) => {
+  res.status(200).json({ message: "API funcionando na Vercel!" });
+};
 // app.listen(PORT, () => {
-//     console.log("Servidor rodando 🚀", PORT);
+//      console.log("Servidor rodando 🚀", PORT);
 // });
 
-//So usar isso para quando rodar o servidor localmente
+// //So usar isso para quando rodar o servidor localmente
 
 // exporta o app para Vercel
-export default app;
+export const handler = serverless(app);
