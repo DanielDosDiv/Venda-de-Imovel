@@ -1,15 +1,14 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-
-import User from '../Controllers/User.js';
-import privateRouter from '../Routers/privateRouter.js';
-import Imovel from '../Controllers/Imovel.js';
-import auth from '../middleware/auth.js';
-import comentario from '../Controllers/Comentario.js';
-import paises from '../Controllers/Paises.js';
-import tipos from '../Controllers/Tipos.js';
-import tiposVenda from '../Controllers/TipoVenda.js';
+import User from './Controllers/User.js';
+import privateRouter from './Routers/privateRouter.js';
+import Imovel from './Controllers/Imovel.js';
+import auth from './middleware/auth.js';
+import comentario from './Controllers/Comentario.js';
+import paises from './Controllers/Paises.js';
+import tipos from './Controllers/Tipos.js';
+import tiposVenda from './Controllers/TipoVenda.js';
 import serverless from 'serverless-http'; 
 dotenv.config();
 const PORT = process.env.PORT || 4000;
