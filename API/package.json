@@ -1,7 +1,7 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "main": "api/sever.js",
+  "main": "sever.js",
   "type": "module",
   "engines": {
     "node": "22.x"
