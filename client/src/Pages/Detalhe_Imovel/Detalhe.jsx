@@ -148,7 +148,7 @@ function DetalheImovel() {
           <div className={style.info_user}>
             <div className={style.fotoUser}>
               <img
-                src="https://plus.unsplash.com/premium_photo-1688891564708-9b2247085923?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cmFuZG9tJTIwcGVyc29ufGVufDB8fDB8fHww"
+                src="https://img.freepik.com/vetores-gratis/circulo-azul-com-usuario-branco_78370-4707.jpg?semt=ais_hybrid&w=740"
                 alt="Foto do usuário"
               />
             </div>

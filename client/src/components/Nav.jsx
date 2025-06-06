@@ -1,13 +1,10 @@
 import style from './Nav.css'
 import logo from '../img/logo.png'
-import userLogo from '../img/user.svg'
 import Btn from './Button.jsx'
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import ModalAcessoNegado from './Modal/AcessoNegado/ModalDeUserSemLgoin.jsx'
 import ModalDeSatus from './Modal/ModalDeSatus/ModalDeSatus.jsx'
 import FeatherIcon from 'feather-icons-react'
-import api from '../services/api'
 
 function Nav() {
     const navigate = useNavigate()
@@ -15,11 +12,11 @@ function Nav() {
     const [mostrarModalSair, setMostrarModalSair] = useState(false)
     const [menuAberto, setMenuAberto] = useState(false)
     const [status, setStatus] = useState(null)
+    
     const token = localStorage.getItem('token')
     const nomedoUser = localStorage.getItem('name')
-    const id = localStorage.getItem('Id')
+    const id = localStorage.getItem('id') // Corrigido: "id" minúsculo
 
-    // Monitora o redimensionamento da janela
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth > 768) {
@@ -35,7 +32,7 @@ function Nav() {
 
     function goToNewImovel() {
         if (!token) {
-            setMostrarModal(true) // mostra o modal
+            setMostrarModal(true)
         } else {
             navigate("/novo-imovel")
         }
@@ -50,8 +47,9 @@ function Nav() {
     }
 
     function LogoffUser() {
-        localStorage.clear('token')
-        localStorage.clear('name')
+        localStorage.removeItem('token')
+        localStorage.removeItem('id')
+        localStorage.removeItem('name')
         setMostrarModalSair(true)
         setStatus(true)
     }
@@ -103,20 +101,14 @@ function Nav() {
 
                 {/* Área direita - Desktop */}
                 <div className="div-direito">
-                    <p onClick={() => navigate(`/editUser/${id}`)}>{nomedoUser}</p>
+                    {id && <p onClick={() => navigate(`/editUser/${id}`)}>{nomedoUser}</p>}
+                    
                     {!id ? (
-                        <FeatherIcon icon='user' className="user" onClick={() => navigate("/login")} />
-
+                        <FeatherIcon icon="user-plus" className="user" onClick={() => navigate("/login")} />
                     ) : (
-                        <></>
-                    )}
-                    {id ? (
                         <div className="FeatherIcon" onClick={LogoffUser}>
                             <FeatherIcon icon="log-out" />
                         </div>
-
-                    ) : (
-                        <></>
                     )}
 
                     <Btn text={"Novo Imóvel"} className={"btn"} onClick={goToNewImovel} />
@@ -148,34 +140,33 @@ function Nav() {
                     <div className="menu-mobile-user">
                         {id ? (
                             <p onClick={() => {
-                                navigate(`/editUser/${id}`);
-                                setMenuAberto(false);
+                                navigate(`/editUser/${id}`)
+                                setMenuAberto(false)
                             }}>{nomedoUser}</p>
                         ) : (
-                            <p>Faça login</p>
+                            <p onClick={() => navigate("/login")}>Faça login</p>
                         )}
+
                         <div className="menu-mobile-user-actions">
-                            {id ? (
+                            {!id ? (
+                                <div className='userLogin'>
+
                                 <FeatherIcon
                                     icon='user'
                                     onClick={() => {
-                                        navigate("/login");
-                                        setMenuAberto(false);
+                                        navigate("/login")
+                                        setMenuAberto(false)
                                     }}
-                                />
-
-
-                            ) :
-                                (
-                                    <></>
-                                )
-                            }
-                            <div onClick={() => {
-                                LogoffUser();
-                                setMenuAberto(false);
-                            }}>
-                                <FeatherIcon icon="log-out" />
-                            </div>
+                                    />
+                                    </div>
+                            ) : (
+                                <div onClick={() => {
+                                    LogoffUser()
+                                    setMenuAberto(false)
+                                }}>
+                                    <FeatherIcon icon="log-out" />
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -185,8 +176,8 @@ function Nav() {
                             text={"Novo Imóvel"}
                             className={"btn_grande"}
                             onClick={() => {
-                                goToNewImovel();
-                                setMenuAberto(false);
+                                goToNewImovel()
+                                setMenuAberto(false)
                             }}
                         />
                     </div>

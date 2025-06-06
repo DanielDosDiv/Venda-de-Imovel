@@ -210,6 +210,9 @@ p {
         justify-content: space-between;
         padding: 0 20px;
     }
+    .userLogin{
+        display: none;
+    }
 }
 
 /* Para telas muito pequenas */

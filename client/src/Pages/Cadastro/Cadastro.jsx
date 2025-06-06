@@ -4,18 +4,21 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../../services/api.js'
 import InputPreset from '../../components/Input.jsx'
+import ModalDeSatus from '../../components/Modal/ModalDeSatus/ModalDeSatus.jsx'
 
 function Cadastro() {
     const navigate = useNavigate()
     const NomeUser = useRef()
     const EmailUser = useRef()
     const PasswordUser = useRef()
-    async function Cadastrar(event){
+    const [mostrarModal, setMostrarModal] = useState(false)
+    const [status, setStatus] = useState(null)
+    async function Cadastrar(event) {
         event.preventDefault()
         if (!EmailUser || !PasswordUser) {
             window.alert("Por Favor Preencha todos os Dados")
         }
-        else{
+        else {
 
             try {
                 const guardarApi = await api.post('/cadastro', {
@@ -24,35 +27,54 @@ function Cadastro() {
                     password: PasswordUser.current.value
                 })
                 // setUser(guardarApi.data)
-                window.alert("Usuário cadastrado com sucesso")
-                navigate('/login')
+                setStatus(true)
+                setMostrarModal(true)
             } catch (error) {
-                window.alert("Não foi possível cadastrar o usuário" ,error)
-                
+                console.error("Erro ao cadastrar usuário:", error.response?.data?.message || error.message)
+                setStatus(false)
+                setMostrarModal(true)
+
             }
         }
-  
+
+    }
+    function fecharModal() {
+        setMostrarModal(false)
+        if (status) {
+            navigate('/login')
+        }
     }
     return (
-        <div className={css.body}>
-        <div className={css.container}>
-            <div className={css.container_esquerdo}>
-                <form action="">
-                    <h1>Seja Bem Vindo(a)</h1>
-                    <p className={css.subTitulo}>Hoje é um novo dia. É o seu dia. Você o molda. Entre para começar a procurar a casa dos seus sonhos.</p>
-                    <InputPreset type={"text"} id={"text"} placeholder={"Fulano da Silva"} label={"Nome"} ref={NomeUser}/>
-                    <InputPreset type={"email"} id={"email"} placeholder={"Exemple@email.com"} label={"Email"} ref={EmailUser}/>
+        <>
+            {mostrarModal && (
+                <ModalDeSatus
+                    isOpen={mostrarModal}
+                    onClose={fecharModal}
+                    Titulo={status ? "Cadastro bem-sucedido!" : "Erro ao cadastrar"}
+                    status={status}
+                    descricao={status ? `Cadastro realizado com sucesso!` : "Não foi possível realizar seu cadastro, dados incompletos ou email já cadastrado."}
+                />
+            )}
+            <div className={css.body}>
+                <div className={css.container}>
+                    <div className={css.container_esquerdo}>
+                        <form action="">
+                            <h1>Seja Bem Vindo(a)</h1>
+                            <p className={css.subTitulo}>Hoje é um novo dia. É o seu dia. Você o molda. Entre para começar a procurar a casa dos seus sonhos.</p>
+                            <InputPreset type={"text"} id={"text"} placeholder={"Fulano da Silva"} label={"Nome"} ref={NomeUser} />
+                            <InputPreset type={"email"} id={"email"} placeholder={"Exemple@email.com"} label={"Email"} ref={EmailUser} />
 
-                    <InputPreset type={"password"} id={"password"} placeholder={"*******"} label={"Senha"} ref={PasswordUser}/>
+                            <InputPreset type={"password"} id={"password"} placeholder={"*******"} label={"Senha"} ref={PasswordUser} />
 
-                    <Btn text={"Cadastrar"} className={"btn_grande"} onClick={Cadastrar} />
-                </form>
+                            <Btn text={"Cadastrar"} className={"btn_grande"} onClick={Cadastrar} />
+                        </form>
+                    </div>
+                    <div className={css.container_direito}>
+                        <img src="https://wallpaper.forfun.com/fetch/74/74682d20b0f812d85188ada840956079.jpeg" alt="" />
+                    </div>
+                </div>
             </div>
-            <div className={css.container_direito}>
-                <img src="https://wallpaper.forfun.com/fetch/74/74682d20b0f812d85188ada840956079.jpeg" alt="" />
-            </div>
-        </div>
-        </div>
+        </>
     )
 
 }
