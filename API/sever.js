@@ -24,9 +24,9 @@ app.use("/", User);
 app.use("/", paises);
 app.use("/", tipos);
 app.use("/", tiposVenda);
-app.use("/", auth, privateRouter);
+app.use("/private", auth, privateRouter);
 
 // 🔥 ESTE BLOCO DEVE EXISTIR PARA O RENDER FUNCIONAR
-app.listen(PORT, () => {
+app.listen( PORT, () => {
   console.log(`Servidor rodando 🚀 na porta ${PORT}`);
 });

@@ -5,7 +5,7 @@ import Btn from './Button.jsx'
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import ModalAcessoNegado from './Modal/AcessoNegado/ModalDeUserSemLgoin.jsx'
-import ModalLogoff from './Modal/ModalDeSatus/ModalDeSatus.jsx'
+import ModalDeSatus from './Modal/ModalDeSatus/ModalDeSatus.jsx'
 import FeatherIcon from 'feather-icons-react'
 import api from '../services/api'
 
@@ -14,7 +14,7 @@ function Nav() {
     const [mostrarModal, setMostrarModal] = useState(false)
     const [mostrarModalSair, setMostrarModalSair] = useState(false)
     const [menuAberto, setMenuAberto] = useState(false)
-
+    const [status, setStatus] = useState(null)
     const token = localStorage.getItem('token')
     const nomedoUser = localStorage.getItem('name')
     const id = localStorage.getItem('Id')
@@ -53,6 +53,7 @@ function Nav() {
         localStorage.clear('token')
         localStorage.clear('name')
         setMostrarModalSair(true)
+        setStatus(true)
     }
 
     function toggleMenu() {
@@ -62,15 +63,20 @@ function Nav() {
     return (
         <>
             {mostrarModal && (
-                <ModalAcessoNegado
+                <ModalDeSatus
                     isOpen={mostrarModal}
                     onClose={fecharModal}
+                    Titulo={"Acesso Negado"}
+                    descricao={"Você precisa estar logado para acessar essa página!"}
                 />
             )}
             {mostrarModalSair && (
-                <ModalLogoff
+                <ModalDeSatus
                     isOpen={mostrarModalSair}
                     onClose={fecharModalSair}
+                    Titulo={"Logoff"}
+                    status={status}
+                    descricao={"Você foi desconectado com sucesso!"}
                 />
             )}
 
@@ -104,9 +110,15 @@ function Nav() {
                     ) : (
                         <></>
                     )}
-                    <div className="FeatherIcon" onClick={LogoffUser}>
-                        <FeatherIcon icon="log-out" />
-                    </div>
+                    {id ? (
+                        <div className="FeatherIcon" onClick={LogoffUser}>
+                            <FeatherIcon icon="log-out" />
+                        </div>
+
+                    ) : (
+                        <></>
+                    )}
+
                     <Btn text={"Novo Imóvel"} className={"btn"} onClick={goToNewImovel} />
                 </div>
 
