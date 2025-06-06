@@ -1,8 +1,10 @@
 import style from './Input.module.css'
-function InputPreset({ type, placeholder, ref, id, label, elemento}) {
+import React, { forwardRef } from 'react'
+
+const InputPreset = forwardRef(({ type, placeholder, id, label }, ref) => {
     return (
         <div className={style.inputContainer}>
-            <p className={style.label} >{label}</p>
+            <p className={style.label}>{label}</p>
             <input
                 className={style.inputPreset}
                 id={id}
@@ -12,5 +14,6 @@ function InputPreset({ type, placeholder, ref, id, label, elemento}) {
             />
         </div>
     );
-}
+});
+
 export default InputPreset;
