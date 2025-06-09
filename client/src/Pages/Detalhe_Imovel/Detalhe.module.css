@@ -1,0 +1,257 @@
+
+.img_casa {
+    width: 80%;
+    height: 435px;
+    overflow: hidden;
+    border-radius: 15px;
+    margin: 0 auto;
+}
+
+.img_casa img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+
+.imovel_info {
+    margin-left: 12%;
+    margin-top: 2%;
+    width: 78%;
+    display: flex;
+    flex-direction: column;
+}
+
+.detalhe_imovel {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.detalhe_imovel p {
+    margin-top: 5px;
+}
+
+
+.info_colum_esquerdo {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+}
+
+.info_colum_direito {
+    gap: 35px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Comentários */
+.container_comentarios {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 45px;
+    justify-content: space-between;
+}
+
+.card_comentario {
+    width: 65%;
+    height: 20%;
+    margin-left: 5%;
+    margin-top: 3%;
+    border-radius: 18px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-bottom: 1%;
+    padding: 25px;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.card_comentario h1 {
+    font-size: 17px;
+}
+
+.card_comentario p {
+    font-size: 15px;
+}
+
+
+.info_comentario {
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.center {
+    text-align: center;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.info_user {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.info_user h1 {
+    display: flex;
+    align-items: center;
+}
+
+.fotoUser {
+    width: 40px;
+    height: 40px;
+}
+
+.fotoUser img {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.botao_comentario {
+    background-color: #4CAF50; /* verde */
+    border: none;
+    width: 25%;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.botao_comentario:hover {
+    background-color: #45a049;
+}
+
+
+
+
+@media (max-width: 1024px) {
+    .container {
+        padding: 0 10%;
+    }
+
+    .img_casa {
+        width: 90%;
+        height: 350px;
+    }
+
+    .imovel_info {
+        margin-left: 0;
+        margin-top: 2%;
+        width: 100%;
+    }
+
+    .detalhe_imovel {
+        flex-direction: column;
+    }
+
+    .info_colum_esquerdo,
+    .info_colum_direito {
+        width: 100%;
+        gap: 25px;
+    }
+
+    .botao_comentario {
+        width: 50%;
+        margin: 20px 0;
+    }
+
+    .card_comentario {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+/* Tela de smartphones */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 5%;
+    }
+
+    .img_casa {
+        width: 100%;
+        height: 250px;
+    }
+
+    .imovel_info {
+        margin-left: 0;
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .detalhe_imovel {
+        flex-direction: column;
+    }
+
+    .info_colum_esquerdo,
+    .info_colum_direito {
+        width: 100%;
+        gap: 15px;
+    }
+
+    .card_comentario {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 20px;
+    }
+
+    .botao_comentario {
+        width: 80%;
+    }
+
+    .fotoUser {
+        width: 35px;
+        height: 35px;
+    }
+
+    .info_user h1 {
+        font-size: 14px;
+    }
+
+    .card_comentario h1 {
+        font-size: 14px;
+    }
+
+    .card_comentario p {
+        font-size: 13px;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 5%;
+    }
+
+    .img_casa {
+        width: 100%;
+        height: 200px;
+    }
+
+    .card_comentario {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .botao_comentario {
+        width: 90%;
+        margin: 20px 0;
+    }
+}

@@ -1,0 +1,66 @@
+.modal_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal {
+  background-color: #fff;
+  padding: 20px 60px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 500px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.titulo_sucesso {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #00ca8d;
+}
+
+.titulo_erro {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #f71616;
+}
+
+.modal p {
+  margin-bottom: 20px;
+}
+
+.btn_fechar {
+  padding: 10px 20px;
+  background-color: #00ca8d;
+  color: white;
+  width: 45%;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 500ms;
+}
+.btn_fechar_erro{
+  background-color: #FF4E4E;
+    padding: 10px 20px;
+  /* background-color: #00ca8d; */
+  color: white;
+  width: 45%;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 500ms;
+}
+.btn_fechar_erro:hover{
+  background-color: #f77171;
+
+}
+.btn_fechar:hover {
+  background-color: #33af8a;
+}

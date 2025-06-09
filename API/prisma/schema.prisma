@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Imovel {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  Pais         Pais       @relation(fields: [paisId], references: [id])
+  paisId       String     @db.ObjectId
+  TipoImovel   TipoImovel @relation(fields: [tipoImovelId], references: [id])
+  tipoImovelId String     @db.ObjectId
+  tipoVenda    TipoVenda  @relation(fields: [tipoVendaId], references: [id])
+  tipoVendaId  String     @db.ObjectId
+  QtdQuartos   Int
+  Cidade       String
+  Rua          String?
+  Bairro       String?
+  NumCasa      Int?
+  Preco        Float
+  cep          String?
+  FotoCasa     String
+  Largura      Float
+  Comprimento  Float
+  comments     Comment[]
+  usuario      User?      @relation(fields: [usuarioId], references: [id])
+  usuarioId    String?    @db.ObjectId
+}
+
+model Pais {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  nome    String
+  sigla   String
+  imoveis Imovel[]
+}
+
+model TipoImovel {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  nome    String
+  imoveis Imovel[]
+}
+
+model TipoVenda {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  nome    String
+  imoveis Imovel[]
+}
+
+model User {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  email    String    @unique
+  name     String
+  password String
+  imoveis  Imovel[]
+  comments Comment[]
+}
+
+model Comment {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  comment   String
+  imovel    Imovel?   @relation(fields: [imovelId], references: [id])
+  imovelId  String?   @db.ObjectId
+  author    User?     @relation(fields: [authorId], references: [id])
+  authorId  String?   @db.ObjectId
+  datePubli DateTime?
+}

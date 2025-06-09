@@ -1,0 +1,227 @@
+.nav {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    font-weight: 600;
+    justify-content: space-between; /* Mudança de space-around para space-between */
+    transition: 500ms;
+    padding: 0 5%; /* Adicionando padding horizontal para melhor espaçamento */
+}
+
+/* Logo - div esquerda */
+.logo {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.logo img {
+    width: 150%;
+}
+
+/* Lista de navegação - div central */
+.nav-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    font-size: 18px;
+    list-style: none;
+    padding: 0; 
+    margin: 0;
+    /* background-color: red; */
+    padding-top: 23px;
+}
+
+.nav-list li a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s;
+}
+.menu-mobile-user p{
+    position: relative;
+    display: block;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.3s;
+
+
+}
+/* Linha que aparece no hover */
+.nav-list li a::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+    width: 100%;
+    height: 2px;
+    background-color: #2B1B12; /* cor da linha */
+    transition: transform 0.3s ease;
+}
+.menu-mobile-user p::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+    width: 100%;
+    height: 2px;
+    background-color: #2B1B12; /* cor da linha */
+    transition: transform 0.3s ease;  
+}
+
+.menu-mobile-user p:hover::after {
+    transform: translateX(-50%) scaleX(1);
+}
+
+.nav-list li a:hover::after {
+    transform: translateX(-50%) scaleX(1);
+}
+
+/* Div direita */
+.div-direito {
+    display: flex;
+    justify-content: flex-end; /* Alinha os itens à direita */
+    align-items: center;
+    gap: 30px;
+    /* background-color: red; */
+}
+
+.div-direito button:hover {
+    background-color: #3C2A1B;
+    cursor: pointer;
+}
+
+.div-direito img {
+    width: 10%;
+}
+
+.div-direito img:hover {
+    cursor: pointer;
+}
+
+a {
+    color: #2B1B12;
+}
+
+p {
+    font-size: 18px;
+}
+
+.div-direito p:hover {
+    cursor: pointer;
+}
+
+.FeatherIcon, .user {
+    transition: 500ms;
+}
+
+.FeatherIcon:hover, .user:hover {
+    cursor: pointer;
+    transform: translateY(-10%);
+}
+
+/* Menu hambúrguer para mobile */
+.menu-icon {
+    display: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: #333;
+}
+
+/* Menu mobile */
+.menu-mobile {
+    display: none;
+    position: absolute;
+    top: 100px;
+    left: 0;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+.menu-mobile-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-mobile-list li {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.menu-mobile-list li:last-child {
+    border-bottom: none;
+}
+
+.menu-mobile-link {
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+    display: block;
+}
+
+.menu-mobile-user {
+    padding: 15px 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-mobile-user-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.menu-mobile-btn {
+    margin: 15px 20px;
+}
+
+/* Media queries para responsividade */
+@media (max-width: 768px) {
+    .nav-list {
+        display: none;
+    }
+
+    .div-direito {
+        display: none;
+    }
+
+    .menu-icon {
+        display: block;
+    }
+
+    .menu-mobile.active {
+        display: block;
+    }
+    
+    .nav {
+        justify-content: space-between;
+        padding: 0 20px;
+    }
+    .userLogin{
+        display: none;
+    }
+}
+
+/* Para telas muito pequenas */
+@media (max-width: 480px) {
+    .nav {
+        height: 80px;
+    }
+    
+    .logo img {
+        height: 30px;
+    }
+}
