@@ -95,7 +95,7 @@ function Nav() {
                         <Link to="/comentarios" className="nav-link">Comentários</Link>
                     </li>
                     <li>
-                        <Link to="/contadores" className="nav-link">Contadores</Link>
+                        <Link to="/contadores" className="nav-link">Usuários</Link>
                     </li>
                 </ul>
 
