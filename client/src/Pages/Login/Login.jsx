@@ -53,10 +53,13 @@ function Login() {
         if (status) {
             navigate('/')
         }
+        else{
+            setIsLoading(false)
+        }
     }
     return (
         <>
-            {/* {mostrarModal && (
+            {mostrarModal && (
                 <ModalDeSatus
                     isOpen={mostrarModal}
                     onClose={fecharModal}
@@ -64,7 +67,7 @@ function Login() {
                     status={status}
                     descricao={status ? `Parabéns ${localStorage.getItem('name')}, você foi logado com sucesso!` : "Não foi possível logar, verifique seus dados e tente novamente."}
                 />
-            )} */}
+            )}
             <Helmet>
                 <link
                     rel="stylesheet"

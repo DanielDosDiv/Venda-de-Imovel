@@ -15,6 +15,9 @@ router.post("/cadastro", async (req, res) => {
         const infoUser = req.body
         const salt = await bcrypt.genSalt(10)
         const hashPassword = await bcrypt.hash(infoUser.password, salt)
+        if(!infoUser.name || !infoUser.email || !password ){
+            return res.status(401).json({message: "Dados incompleots"})
+        }
         const UserDb = await prisma.user.create({
             data: {
                 name: infoUser.name,

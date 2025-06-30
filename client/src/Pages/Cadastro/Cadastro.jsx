@@ -19,8 +19,9 @@ function Cadastro() {
     async function Cadastrar(event) {
         event.preventDefault()
         setIsLoading(true)
-        if (!EmailUser || !PasswordUser) {
-            window.alert("Por Favor Preencha todos os Dados")
+        if (!EmailUser || !PasswordUser || !NomeUser) {
+            setStatus(false)
+            setMostrarModal(true)
         }
         else {
 
@@ -47,6 +48,9 @@ function Cadastro() {
         if (status) {
             navigate('/login')
         }
+        else {
+            setIsLoading(false)
+        }
     }
     return (
         <>
@@ -56,7 +60,7 @@ function Cadastro() {
                     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
                 />
             </Helmet>
-            {/* {mostrarModal && (
+            {mostrarModal && (
                 <ModalDeSatus
                     isOpen={mostrarModal}
                     onClose={fecharModal}
@@ -64,7 +68,7 @@ function Cadastro() {
                     status={status}
                     descricao={status ? `Cadastro realizado com sucesso!` : "Não foi possível realizar seu cadastro, dados incompletos ou email já cadastrado."}
                 />
-            )} */}
+            )}
             <div className={css.body}>
                 <div className={css.container}>
                     <div className={css.container_esquerdo}>
