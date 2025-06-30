@@ -103,7 +103,11 @@
 .div-direito img {
     width: 10%;
 }
-
+.div-direito p{
+    width: 50%;
+    text-align: center;
+    /* background-color: red; */
+}
 .div-direito img:hover {
     cursor: pointer;
 }
@@ -116,9 +120,9 @@ p {
     font-size: 18px;
 }
 
-.div-direito p:hover {
+/* .div-direito p:hover {
     cursor: pointer;
-}
+} */
 
 .FeatherIcon, .user {
     transition: 500ms;

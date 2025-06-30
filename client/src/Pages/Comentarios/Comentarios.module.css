@@ -1,7 +1,8 @@
 .info_comentario {
     width: 100%;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-bottom: 25px;
     box-sizing: border-box;
 }
 
@@ -84,7 +85,7 @@
 
 .card_comentario {
     width: 340px;
-    height: 380px;
+    min-height: 100px; /* Para garantir que tenha um tamanho mínimo */
     border-radius: 18px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     margin-bottom: 3%;
@@ -92,6 +93,10 @@
     flex-grow: 0;
     background-color: #DDC7BB;
     box-sizing: border-box;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 

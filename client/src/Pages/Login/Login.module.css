@@ -79,6 +79,9 @@ form {
     width: 65%;   
     margin: 0 auto;
 }
+form h1{
+      font-weight: 700 !important;
+}
 
 
 .titulo {

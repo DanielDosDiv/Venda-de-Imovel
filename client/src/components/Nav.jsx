@@ -12,7 +12,6 @@ function Nav() {
     const [mostrarModalSair, setMostrarModalSair] = useState(false)
     const [menuAberto, setMenuAberto] = useState(false)
     const [status, setStatus] = useState(null)
-    
     const token = localStorage.getItem('token')
     const nomedoUser = localStorage.getItem('name')
     const id = localStorage.getItem('id') // Corrigido: "id" minúsculo
@@ -32,7 +31,9 @@ function Nav() {
 
     function goToNewImovel() {
         if (!token) {
-            setMostrarModal(true)
+            // setMostrarModal(true)
+            navigate("/login")
+
         } else {
             navigate("/novo-imovel")
         }
@@ -104,7 +105,7 @@ function Nav() {
                     {id && <p onClick={() => navigate(`/editUser/${id}`)}>{nomedoUser}</p>}
                     
                     {!id ? (
-                        <FeatherIcon icon="user-plus" className="user" onClick={() => navigate("/login")} />
+                        <FeatherIcon icon="user" className="user" onClick={() => navigate("/login")} />
                     ) : (
                         <div className="FeatherIcon" onClick={LogoffUser}>
                             <FeatherIcon icon="log-out" />

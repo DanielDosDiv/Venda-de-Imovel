@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CepApi from '../../services/api.js';
 import api from '../../services/api.js';
+import { Helmet } from 'react-helmet';
 import axios from 'axios';
 
 function NovoImovel() {
@@ -18,6 +19,7 @@ function NovoImovel() {
     const [imgCasa, setImgCasa] = useState(null);
     const [valorFormatado, setValorFormatado] = useState('');
     const [status, setStatus] = useState(false);
+    const [isLoading, setIsLoading] = useState(null)
     const [msgSuccessOpen, setMsgSuccessOpen] = useState(null); // ✅ nome claro
 
     const [formData, setFormData] = useState({
@@ -94,7 +96,7 @@ function NovoImovel() {
     const FecharModal = () => {
         setMsgSuccessOpen(false);
     };
-    const GoToImoveis = () =>{
+    const GoToImoveis = () => {
         setMsgSuccessOpen(false)
         navigate('/imoveis');
     }
@@ -121,7 +123,7 @@ function NovoImovel() {
 
     async function CadastrarImovel(event) {
         event.preventDefault();
-
+        setIsLoading(true)
         if (
             !formData.cidade ||
             !formData.paisId ||
@@ -161,8 +163,10 @@ function NovoImovel() {
         try {
             await api.post('/novoImovel', data);
             console.log("Imóvel cadastrado com sucesso!");
-            setMsgSuccessOpen(true); // ✅ abrir modal
+            setIsLoading(false)
             setStatus(true)
+            navigate('/imoveis');
+
         } catch (error) {
             console.error("Erro ao cadastrar:", error.response?.data || error);
             setStatus(false)
@@ -172,165 +176,175 @@ function NovoImovel() {
     }
 
     return (
-        <div className={css.container}>
+        <>
+
             {msgSuccessOpen && (
                 <ModalDeSatus
-                isOpen={msgSuccessOpen}
-                onClose={status === false ? FecharModal : GoToImoveis}
-                Titulo={status === true ? "Sucesso" : "Erro"}
-                descricao={status === true ? "Imóvel criado com sucesso" : "Erro ao criar imóvel, preencha todas as informações"}
-                status={status}
+                    isOpen={msgSuccessOpen}
+                    onClose={status === false ? FecharModal : GoToImoveis}
+                    Titulo={status === true ? "Sucesso" : "Erro"}
+                    descricao={status === true ? "Imóvel criado com sucesso" : "Erro ao criar imóvel, preencha todas as informações"}
+                    status={status}
                 />
             )}
+            <div className={css.container}>
 
-            <div className={css.container_esquerdo}>
-                {imgCasa === null ? <AnimationHouse /> :
-                    <div className={css.img_casa}>
-                        <img src={imgCasa} alt="Casa" />
-                    </div>
-                }
-            </div>
+                <div className={css.container_esquerdo}>
+                    {imgCasa === null ? <AnimationHouse /> :
+                        <div className={css.img_casa}>
+                            <img src={imgCasa} alt="Casa" />
+                        </div>
+                    }
+                </div>
 
-            <div className={css.container_direito}>
-                <h1>Novo Imóvel</h1>
-                <form className={css.preset_input} onSubmit={CadastrarImovel}>
+                <div className={css.container_direito}>
+                    <h1>Novo Imóvel</h1>
+                    <form className={css.preset_input} onSubmit={CadastrarImovel}>
 
-                    {etapa === 1 && (
-                        <>
-                            <input
-                                type="text"
-                                placeholder='CEP'
-                                name="cep"
-                                value={formData.cep}
-                                onChange={handleChange}
-                                onBlur={() => getCEP(formData.cep)}
-                                required
-                            />
-                            <input
-                                type="text"
-                                placeholder='Cidade'
-                                name="cidade"
-                                value={formData.cidade}
-                                onChange={handleChange}
-                                required
-                            />
-                            <input
-                                type="text"
-                                placeholder='Bairro'
-                                name="bairro"
-                                value={formData.bairro}
-                                onChange={handleChange}
-                                required
-                            />
-                            <input
-                                type="text"
-                                placeholder='Rua'
-                                name="rua"
-                                value={formData.rua}
-                                onChange={handleChange}
-                                required
-                            />
-                            <input
-                                type="number"
-                                min={0}
-                                placeholder='N° da Casa'
-                                name="numCasa"
-                                value={formData.numCasa}
-                                onChange={handleChange}
-                                required
-                            />
-                        </>
-                    )}
-
-                    {etapa === 2 && (
-                        <>
-                            <input
-                                type="text"
-                                placeholder="R$ 0,00"
-                                value={valorFormatado}
-                                onChange={handleChangePreco}
-                                required
-                            />
-                            <input
-                                type="number"
-                                placeholder='Comprimento'
-                                name="comprimento"
-                                value={formData.comprimento}
-                                onChange={handleChange}
-                                required
-                                step="0.01"
-                                min="0"
-                            />
-                            <input
-                                type="number"
-                                placeholder='Largura'
-                                name="largura"
-                                value={formData.largura}
-                                onChange={handleChange}
-                                required
-                                step="0.01"
-                                min="0"
-                            />
-                            <input
-                                type="number"
-                                placeholder="Quantidade de quartos"
-                                min="1"
-                                name="qtdQuartos"
-                                value={formData.qtdQuartos}
-                                onChange={handleChange}
-                                required
-                            />
-                        </>
-                    )}
-
-                    {etapa === 3 && (
-                        <>
-                            <select name="tipoVendaId" value={formData.tipoVendaId} onChange={handleChange} required>
-                                <option value="">Tipo da Venda</option>
-                                {tipoVenda.map((tipos) => (
-                                    <option key={tipos.id} value={tipos.id}>{tipos.nome}</option>
-                                ))}
-                            </select>
-                            <select name="paisId" value={formData.paisId} onChange={handleChange} required>
-                                <option value="">Selecione um país</option>
-                                {pais.map((pais) => (
-                                    <option key={pais.id} value={pais.id}>{pais.nome}</option>
-                                ))}
-                            </select>
-                            <select name="tipoImovelId" value={formData.tipoImovelId} onChange={handleChange} required>
-                                <option value="">Tipo Imóvel</option>
-                                {tipo.map((tipos) => (
-                                    <option key={tipos.id} value={tipos.id}>{tipos.nome}</option>
-                                ))}
-                            </select>
-                            <input
-                                type="url"
-                                placeholder='URL da foto da casa'
-                                name="fotoCasa"
-                                value={formData.fotoCasa}
-                                onChange={handleChange}
-                                required
-                            />
-                        </>
-                    )}
-
-                    <div className={css.botoes_carrossel}>
-                        {etapa > 1 && (
-                            <button type="button" onClick={() => setEtapa(etapa - 1)}>
-                                Voltar
-                            </button>
+                        {etapa === 1 && (
+                            <>
+                                <input
+                                    type="text"
+                                    placeholder='CEP'
+                                    name="cep"
+                                    value={formData.cep}
+                                    onChange={handleChange}
+                                    onBlur={() => getCEP(formData.cep)}
+                                    required
+                                />
+                                <input
+                                    type="text"
+                                    placeholder='Cidade'
+                                    name="cidade"
+                                    value={formData.cidade}
+                                    onChange={handleChange}
+                                    required
+                                />
+                                <input
+                                    type="text"
+                                    placeholder='Bairro'
+                                    name="bairro"
+                                    value={formData.bairro}
+                                    onChange={handleChange}
+                                    required
+                                />
+                                <input
+                                    type="text"
+                                    placeholder='Rua'
+                                    name="rua"
+                                    value={formData.rua}
+                                    onChange={handleChange}
+                                    required
+                                />
+                                <input
+                                    type="number"
+                                    min={0}
+                                    placeholder='N° da Casa'
+                                    name="numCasa"
+                                    value={formData.numCasa}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </>
                         )}
-                        {etapa < 3 ? (
-                            <button type="button" onClick={() => setEtapa(etapa + 1)}>
-                                Próximo
-                            </button>
-                        ) : (
-                            <button type="submit">Adicionar Imóvel</button>
+
+                        {etapa === 2 && (
+                            <>
+                                <input
+                                    type="text"
+                                    placeholder="R$ 0,00"
+                                    value={valorFormatado}
+                                    onChange={handleChangePreco}
+                                    required
+                                />
+                                <input
+                                    type="number"
+                                    placeholder='Comprimento'
+                                    name="comprimento"
+                                    value={formData.comprimento}
+                                    onChange={handleChange}
+                                    required
+                                    step="0.01"
+                                    min="0"
+                                />
+                                <input
+                                    type="number"
+                                    placeholder='Largura'
+                                    name="largura"
+                                    value={formData.largura}
+                                    onChange={handleChange}
+                                    required
+                                    step="0.01"
+                                    min="0"
+                                />
+                                <input
+                                    type="number"
+                                    placeholder="Quantidade de quartos"
+                                    min="1"
+                                    name="qtdQuartos"
+                                    value={formData.qtdQuartos}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </>
                         )}
-                    </div>
-                </form>
+
+                        {etapa === 3 && (
+                            <>
+                                <select name="tipoVendaId" value={formData.tipoVendaId} onChange={handleChange} required>
+                                    <option value="">Tipo da Venda</option>
+                                    {tipoVenda.map((tipos) => (
+                                        <option key={tipos.id} value={tipos.id}>{tipos.nome}</option>
+                                    ))}
+                                </select>
+                                <select name="paisId" value={formData.paisId} onChange={handleChange} required>
+                                    <option value="">Selecione um país</option>
+                                    {pais.map((pais) => (
+                                        <option key={pais.id} value={pais.id}>{pais.nome}</option>
+                                    ))}
+                                </select>
+                                <select name="tipoImovelId" value={formData.tipoImovelId} onChange={handleChange} required>
+                                    <option value="">Tipo Imóvel</option>
+                                    {tipo.map((tipos) => (
+                                        <option key={tipos.id} value={tipos.id}>{tipos.nome}</option>
+                                    ))}
+                                </select>
+                                <input
+                                    type="url"
+                                    placeholder='URL da foto da casa'
+                                    name="fotoCasa"
+                                    value={formData.fotoCasa}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </>
+                        )}
+
+                        <div className={css.botoes_carrossel}>
+                            {etapa > 1 && (
+                                <button type="button" onClick={() => setEtapa(etapa - 1)}>
+                                    Voltar
+                                </button>
+                            )}
+                            {etapa < 3 ? (
+                                <button type="button" onClick={() => setEtapa(etapa + 1)}>
+                                    Próximo
+                                </button>
+                            ) : (
+                                <button type="submit">{!isLoading ? "Adicionar Imóvel" :
+                                    <div className={css.spinner_overlay}>
+                                        <div className={css.spinner}></div>
+                                    </div>
+
+
+
+                                }</button>
+                            )}
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
+        </>
     );
 }
 

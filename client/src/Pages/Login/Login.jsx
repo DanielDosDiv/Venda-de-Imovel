@@ -5,6 +5,7 @@ import api from '../../services/api.js'
 import InputPreset from '../../components/Input.jsx'
 import css from './Login.module.css'
 import { useState } from 'react'
+import { Helmet } from 'react-helmet';
 import ModalDeSatus from '../../components/Modal/ModalDeSatus/ModalDeSatus.jsx'
 
 function Login() {
@@ -13,10 +14,12 @@ function Login() {
     const PasswordUser = useRef()
     const [mostrarModal, setMostrarModal] = useState(false)
     const [status, setStatus] = useState(null)
+    const [isLoading, setIsLoading] = useState(null)
+
 
     async function Logar(event) {
         event.preventDefault()
-
+        setIsLoading(true)
         if (!EmailUser.current.value || !PasswordUser.current.value) {
             return window.alert("Preencha todos os campos.");
         }
@@ -33,7 +36,8 @@ function Login() {
                 localStorage.setItem('name', response.data.user.name)
                 setStatus(true)
                 setMostrarModal(true)
-                // navigate('/')
+                setIsLoading(false)
+                navigate('/')
             } else {
                 throw new Error('Estrutura de resposta inesperada')
             }
@@ -52,7 +56,7 @@ function Login() {
     }
     return (
         <>
-            {mostrarModal && (
+            {/* {mostrarModal && (
                 <ModalDeSatus
                     isOpen={mostrarModal}
                     onClose={fecharModal}
@@ -60,7 +64,13 @@ function Login() {
                     status={status}
                     descricao={status ? `Parabéns ${localStorage.getItem('name')}, você foi logado com sucesso!` : "Não foi possível logar, verifique seus dados e tente novamente."}
                 />
-            )}
+            )} */}
+            <Helmet>
+                <link
+                    rel="stylesheet"
+                    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+                />
+            </Helmet>
             <div className={css.body}>
                 <div className={css.container}>
                     <div className={css.container_esquerdo}>
@@ -71,7 +81,12 @@ function Login() {
                             <InputPreset type="password" id="password" placeholder="*******" label="Senha" ref={PasswordUser} />
 
                             <Link to="/cadastro">Não tem conta ainda?</Link>
-                            <Btn text="Login" className="btn_grande" onClick={Logar} />
+                            <Btn text={!isLoading ? "Login" :
+                                <div class="spinner-border spinner-border" role="status"
+                                    style={{ width: '1.5rem', height: '1.5rem' }}>
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            } className="btn_grande" onClick={Logar} />
                         </form>
                     </div>
                     <div className={css.container_direito}>

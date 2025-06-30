@@ -92,6 +92,29 @@ body{
     margin-top: 10px;
 }
 
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.2); /* Cor de fundo do círculo */
+  border-top: 4px solid white;               /* Cor da parte visível que gira */
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Centralizar o spinner no meio da tela */
+.spinner_overlay {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .botoes_carrossel button {
     flex: 1;
     height: 50px;

@@ -6,6 +6,7 @@ const prisma = new PrismaClient()
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
 const JWT_SECRET = process.env.JWT_SECRET
+
 router.post("/novoImovel", async (req, res) => {
 
 })
