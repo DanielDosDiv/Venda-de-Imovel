@@ -37,7 +37,7 @@ function Login() {
                 setStatus(true)
                 setMostrarModal(true)
                 setIsLoading(false)
-                navigate('/')
+                navigate('/imoveis')
             } else {
                 throw new Error('Estrutura de resposta inesperada')
             }
