@@ -11,13 +11,14 @@ router.post("/novoImovel", async (req, res) => {
 
 })
 router.post("/cadastro", async (req, res) => {
+    const { name, email } = req.body
+    if (!name || !email || !password) {
+        return res.status(401).json({ message: "Dados incompleots" })
+    }
     try {
-        const {name, email} = req.body
         const salt = await bcrypt.genSalt(10)
         const hashPassword = await bcrypt.hash(infoUser.password, salt)
-        if(!name || !email || !password ){
-            return res.status(401).json({message: "Dados incompleots"})
-        }
+
         const UserDb = await prisma.user.create({
             data: {
                 name: nome,
@@ -79,7 +80,7 @@ router.post("/login", async (req, res) => {
 
     } catch (error) {
         console.error("Erro no login:", error);
-        return res.status(500).json({ 
+        return res.status(500).json({
             message: "Erro durante o login",
             ...(process.env.NODE_ENV === 'development' && { error: error.message })
         });
@@ -107,27 +108,27 @@ router.delete("/delete/:id", async (req, res) => {
 
 router.get("/listUser", async (req, res) => {
     try {
-      const includeComments = req.query.includeComments === 'true';
-      const includeImoveis = req.query.includeImoveis === 'true';
-  
-      const UserDb = await prisma.user.findMany({
-        include: {
-          comments: includeComments,
-          imoveis: includeImoveis
-        }
-      });
-  
-      res.status(200).json({
-        message: "Todos Usuários listados com sucesso",
-        UserDb
-      });
-  
+        const includeComments = req.query.includeComments === 'true';
+        const includeImoveis = req.query.includeImoveis === 'true';
+
+        const UserDb = await prisma.user.findMany({
+            include: {
+                comments: includeComments,
+                imoveis: includeImoveis
+            }
+        });
+
+        res.status(200).json({
+            message: "Todos Usuários listados com sucesso",
+            UserDb
+        });
+
     } catch (error) {
-      console.error("Erro ao listar usuários:", error);
-      return res.status(500).json({
-        message: "Erro ao listar usuários"
-      });
+        console.error("Erro ao listar usuários:", error);
+        return res.status(500).json({
+            message: "Erro ao listar usuários"
+        });
     }
-  });
+});
 
 export default router
