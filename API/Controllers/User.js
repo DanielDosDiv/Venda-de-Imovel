@@ -12,16 +12,16 @@ router.post("/novoImovel", async (req, res) => {
 })
 router.post("/cadastro", async (req, res) => {
     try {
-        const infoUser = req.body
+        const {name, email} = req.body
         const salt = await bcrypt.genSalt(10)
         const hashPassword = await bcrypt.hash(infoUser.password, salt)
-        if(!infoUser.name || !infoUser.email || !password ){
+        if(!name || !email || !password ){
             return res.status(401).json({message: "Dados incompleots"})
         }
         const UserDb = await prisma.user.create({
             data: {
-                name: infoUser.name,
-                email: infoUser.email,
+                name: nome,
+                email: email,
                 password: hashPassword
             }
         })
