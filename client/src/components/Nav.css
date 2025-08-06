@@ -86,14 +86,15 @@
     transform: translateX(-50%) scaleX(1);
 }
 
-/* Div direita */
 .div-direito {
-    display: flex;
-    justify-content: flex-end; /* Alinha os itens à direita */
-    align-items: center;
-    gap: 30px;
-    /* background-color: red; */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 30px;
+  max-width: 300px; /* <= limite máximo */
+  flex-shrink: 0;
 }
+
 
 .div-direito button:hover {
     background-color: #3C2A1B;
@@ -143,7 +144,6 @@ p {
 
 /* Menu mobile */
 .menu-mobile {
-    display: none;
     position: absolute;
     top: 100px;
     left: 0;
@@ -151,6 +151,17 @@ p {
     background-color: white;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 100;
+
+    /* Correções */
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+.menu-mobile.active {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .menu-mobile-list {
@@ -216,6 +227,9 @@ p {
     }
     .userLogin{
         display: none;
+    }
+        .menu-mobile {
+        display: block; /* Permite aplicar as transições */
     }
 }
 

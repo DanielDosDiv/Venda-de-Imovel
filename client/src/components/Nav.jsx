@@ -5,8 +5,9 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import ModalDeSatus from './Modal/ModalDeSatus/ModalDeSatus.jsx'
 import FeatherIcon from 'feather-icons-react'
-
+import { useLocation } from 'react-router-dom';
 function Nav() {
+    const location = useLocation(); // hook do react-router para pegar a URL atual
     const navigate = useNavigate()
     const [mostrarModal, setMostrarModal] = useState(false)
     const [mostrarModalSair, setMostrarModalSair] = useState(false)
@@ -15,19 +16,15 @@ function Nav() {
     const token = localStorage.getItem('token')
     const nomedoUser = localStorage.getItem('name')
     const id = localStorage.getItem('id') // Corrigido: "id" minúsculo
+    const [rotaAtual, setRotaAtual] = useState('')
+useEffect(() => {
+    const path = location.pathname; // ex: "/dashboard"
+    const cleanPath = path.startsWith("/") ? path.slice(1) : path;
 
-    useEffect(() => {
-        const handleResize = () => {
-            if (window.innerWidth > 768) {
-                setMenuAberto(false)
-            }
-        }
-
-        window.addEventListener('resize', handleResize)
-        return () => {
-            window.removeEventListener('resize', handleResize)
-        }
-    }, [])
+    setRotaAtual(cleanPath);
+    localStorage.setItem('rota_atual', cleanPath);
+    console.log("Rota atual:", cleanPath);
+}, [location.pathname]); // ✅ reexecuta o efeito sempre que a URL mudar
 
     function goToNewImovel() {
         if (!token) {
@@ -103,7 +100,7 @@ function Nav() {
                 {/* Área direita - Desktop */}
                 <div className="div-direito">
                     {id && <p onClick={() => navigate(`/editUser/${id}`)}>{nomedoUser}</p>}
-                    
+
                     {!id ? (
                         <FeatherIcon icon="user" className="user" onClick={() => navigate("/login")} />
                     ) : (
@@ -111,8 +108,12 @@ function Nav() {
                             <FeatherIcon icon="log-out" />
                         </div>
                     )}
+                    {!rotaAtual ? (
+                        <Btn text={"Login"} className={"btn"} onClick={() => navigate("/login")} />
+                    ) : (
 
-                    <Btn text={"Novo Imóvel"} className={"btn"} onClick={goToNewImovel} />
+                        <Btn text={"Novo Imóvel"} className={"otherBtn"} onClick={goToNewImovel} />
+                    )}
                 </div>
 
                 {/* Ícone do menu hambúrguer para mobile */}
@@ -152,14 +153,14 @@ function Nav() {
                             {!id ? (
                                 <div className='userLogin'>
 
-                                <FeatherIcon
-                                    icon='user'
-                                    onClick={() => {
-                                        navigate("/login")
-                                        setMenuAberto(false)
-                                    }}
+                                    <FeatherIcon
+                                        icon='user'
+                                        onClick={() => {
+                                            navigate("/login")
+                                            setMenuAberto(false)
+                                        }}
                                     />
-                                    </div>
+                                </div>
                             ) : (
                                 <div onClick={() => {
                                     LogoffUser()
